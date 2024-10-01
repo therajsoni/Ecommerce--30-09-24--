@@ -4,7 +4,6 @@ import {FaRegBell} from "react-icons/fa"
 import image from "../assets/user.svg"
 import {HiTrendingUp,HiTrendingDown}  from "react-icons/hi"
 import data from '../assets/data.json'
-import { BarChart } from "../components/Charts";
 
 
 export default function Dashboard() {
@@ -33,15 +32,6 @@ export default function Dashboard() {
 <section className="graph-container">
 <div className="revenue-chart" >
   <h2>Revenue & Transaction</h2>
-  <BarChart data_1 = {[300,144,433,655,237,755,190]} 
-  // data_2={[200,444,556,615,237,755,190]}
-  title_1={"Revenue"}
-  //  title_2={"Transaction"}
-   bgColor_1={"rgb(0,115,255)"} 
-    // bgColor_2={"rgba(53,162,235,0.8)"}
-  />
-
-
 </div>
 <div className="dashboard-categories" >
   <h2>Inventory</h2>
@@ -65,15 +55,6 @@ export default function Dashboard() {
 )
 }
 
-// WidgetItem.propTypes = {
-//   heading: PropTypes.string.isRequired,  // Ensure heading is a required string
-//   value: PropTypes.oneOfType([           // Allow value to be string or number
-//     PropTypes.string,
-//     PropTypes.number
-//   ]).isRequired,
-//   percent: PropTypes.number,             // percent is optional, so no `.isRequired`
-//   amount: PropTypes.bool                 // amount is also optional
-// };
 
 const WidgetItem = ({
   heading,
