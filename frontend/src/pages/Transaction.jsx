@@ -3,8 +3,7 @@ import AdminSidebar from "../components/AdminSidebar";
 import TableHOC from "../components/TableHOC";
 import  {Link} from "react-router-dom"
 import { FaPlus, FaTrash } from "react-icons/fa";
-import avatar1 from '../assets/avatar1.jpg';
-import avatar2 from '../assets/avatar2.jpg';
+
 
 const columns = [
   {
