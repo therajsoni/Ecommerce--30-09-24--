@@ -9,6 +9,7 @@ const Dashboard = lazy(()=> import( './pages/Dashboard.jsx'))
 const Product = lazy(()=> import( './pages/Products.jsx'))
 const Transaction = lazy(()=> import( './pages/Transaction.jsx'))
 const Customers = lazy(()=> import( './pages/Customers.jsx'))
+const NewProduct = lazy(()=> import( './pages/management/NewProduct.jsx'))
 
 const App = () => {
   return (
@@ -25,7 +26,10 @@ const App = () => {
 
 {/* charts */}
 
+{/* Apps */}
 
+{/* Management */}
+<Route path="/admin/product/new" element={<NewProduct/>} />
 
       </Routes>
       </Suspense>
