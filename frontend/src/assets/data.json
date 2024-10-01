@@ -21,21 +21,21 @@
         {
             "id" : "ksa",
             "amount" : 4000,
-            "qty" : 2,
+            "quantity" : 2,
             "discount" : 900,
             "status" : "Processing"
         },
         {
             "id" : "ksa",
             "amount" : 4000,
-            "qty" : 2,
+            "quantity" : 2,
             "discount" : 900,
             "status" : "Processing"
         }
         ,        {
             "id" : "ksa",
             "amount" : 4000,
-            "qty" : 2,
+            "quantity" : 2,
             "discount" : 900,
             "status" : "Processing"
         }
