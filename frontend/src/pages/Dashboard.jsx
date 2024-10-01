@@ -4,8 +4,9 @@ import {FaRegBell} from "react-icons/fa"
 import image from "../assets/user.svg"
 import {HiTrendingUp,HiTrendingDown}  from "react-icons/hi"
 import data from '../assets/data.json'
-import { BarChart } from "../components/Charts";
-
+import { BarChart, Doughnutchart } from "../components/Charts";
+import {BiMaleFemale} from "react-icons/bi"
+import DashboardTable from "../components/DashboardTable";
 
 export default function Dashboard() {
   return (
@@ -33,13 +34,15 @@ export default function Dashboard() {
 <section className="graph-container">
 <div className="revenue-chart" >
   <h2>Revenue & Transaction</h2>
-  <BarChart data_1 = {[300,144,433,655,237,755,190]} 
-  // data_2={[200,444,556,615,237,755,190]}
-  title_1={"Revenue"}
-  //  title_2={"Transaction"}
-   bgColor_1={"rgb(0,115,255)"} 
-    // bgColor_2={"rgba(53,162,235,0.8)"}
-  />
+   <BarChart
+   data_1={[300,144,433,655,237,755,190]}
+   data_2={[200,444,343,556,778,445,900]}
+   title_1={"Revenue"}
+   title_2={"Transaction"}
+   bgColor_1={"rgb(0,115,255)"}
+   bgColor_2={"rgba(53,162,235,0.8)"}
+  //  horizontal = {true}
+   />
 
 
 </div>
@@ -59,21 +62,22 @@ export default function Dashboard() {
 </div>
 </section>
 
+<section  className="transaction-container">
+<div className="gender-chart" >
+  <Doughnutchart labels={["Female","Male"]}  data={[12,19]} backgroundColor={["hsl(340,82%,56%)","rgba(53,162,235,0.8)"]} cutout={90} />
+  <h2>Gender Ratio</h2>
+  {/* Charts */}
+  <p> <BiMaleFemale/> </p> 
+</div>
+<DashboardTable data={data.transaction} />
+</section>
+
+
 
 </main>
 </div>
 )
 }
-
-// WidgetItem.propTypes = {
-//   heading: PropTypes.string.isRequired,  // Ensure heading is a required string
-//   value: PropTypes.oneOfType([           // Allow value to be string or number
-//     PropTypes.string,
-//     PropTypes.number
-//   ]).isRequired,
-//   percent: PropTypes.number,             // percent is optional, so no `.isRequired`
-//   amount: PropTypes.bool                 // amount is also optional
-// };
 
 const WidgetItem = ({
   heading,
