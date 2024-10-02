@@ -1,5 +1,5 @@
 
-import { Bar, Doughnut } from "react-chartjs-2";
+import { Bar, Doughnut, Pie,Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,6 +11,9 @@ import {
   scales,
   plugins,
   ArcElement,
+  PointElement,
+  LineElement,
+  Filler
 } from "chart.js";
 
 // Register components for chart.js
@@ -21,7 +24,10 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  ArcElement
+  ArcElement,
+  PointElement,
+  LineElement,
+  Filler
 );
 
 
@@ -96,14 +102,14 @@ export const BarChart = ({
 
   return (
     <div style={{ width: "60%", margin: "auto" }}>
-      <Bar data={data} options={options} />
+      <Bar width={horizontal ? "200%" : ""} data={data} options={options} />
     </div>
   );
 };
 
 
 
-export const Doughnutchart = ({
+export const DoughnutChart = ({
     labels,
     data,
     backgroundColor,
@@ -135,6 +141,90 @@ const doughnutOptions = {
 
 
 
-    return <Doughnut data={doughnutData} doughnutOptions={doughnutOptions} />
+    return <Doughnut data={doughnutData} options={doughnutOptions} />
 }
 
+
+
+export const PieChart = ({
+  labels,
+  data,
+  backgroundColor,
+  offset
+}) => {
+
+const pieChartData = {
+  labels : labels,
+  datasets : [{
+      data,backgroundColor,borderWidth:1,offset,
+  }]
+};
+
+const pieChartOptions = {
+  responsive : true,
+  plugins : {
+      legend : {
+          display : false,
+      }
+  }
+};
+
+
+
+  return <Pie data={pieChartData} options={pieChartOptions} />
+}
+
+
+export const LineChart = ({
+  data,
+  label,   
+  backgroundColor,
+  borderColor,
+  labels = months, 
+}) => {
+// Data for the bar chart
+const datah = {
+  labels : labels,
+  datasets: [
+    {
+      fill:true,
+      label,
+      data,        
+      backgroundColor:backgroundColor,
+      borderColor:borderColor,
+    },
+  ],
+};
+
+// Options for the bar chart
+const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display : false,
+    },
+    title: {
+      display : false,
+    },
+  },
+  scales:{
+      y:{
+          beginAtZero : true,
+          grid : {
+          display : false
+      }
+  },
+  x:{
+      grid : {
+      display : false
+  }
+},
+  }
+};
+
+return (
+  <div style={{ width: "60%", margin: "auto" }}>
+    <Line  data={datah} options={options} />
+  </div>
+);
+};

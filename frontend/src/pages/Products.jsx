@@ -35,7 +35,7 @@ const arr = [
     name : "Puma Shoes Air Jorder cook Nigga 2023",
     price : 690,
     stock : 3,
-    action : <Link to="/admin/product/a" > </Link>                        
+    action : <Link to="/admin/product/a">Manage</Link>                        
   }
   ,
   {
@@ -43,7 +43,7 @@ const arr = [
     name : "Mac book",
     price : 690000,
     stock : 213,
-    action : <Link to="/admin/product/b" > </Link>   
+    action : <Link to="/admin/product/b">Manage</Link>   
   }
 ];
 

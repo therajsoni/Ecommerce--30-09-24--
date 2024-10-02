@@ -164,6 +164,7 @@ padding-bottom: 2rem;
             @include posCenter;
             font-size : 2rem;
             color: rgba(0,0,0,0.634);
+            bottom:-.5rem; 
         }
     }
     .transaction-box{
