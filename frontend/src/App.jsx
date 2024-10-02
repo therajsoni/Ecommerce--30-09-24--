@@ -18,14 +18,32 @@ const PieCharts = lazy(()=> import( './pages/charts/PieCharts.jsx'))
 const StopWatch = lazy(()=> import( './pages/app/StopWatch.jsx'))
 const Coupon = lazy(()=> import( './pages/app/Coupon.jsx'))
 const Toss = lazy(()=> import( './pages/app/Toss.jsx'))
-
+const Home = lazy(()=> import( './pages/Home.jsx'))
+const Cart = lazy(()=> import( './pages/Cart.jsx'))
+const Search = lazy(()=> import( './pages/Search.jsx'))
+const Header = lazy(()=>import('./components/Header.jsx'))
+const ShippingCart = lazy(()=>import('./pages/Shipping.jsx'))
+const Login = lazy(()=>import('./pages/Login.jsx'))
+const Orders = lazy(()=>import('./pages/Orders.jsx'))
+const OrderDeatail = lazy(()=>import('./pages/OrderDetails.jsx'))
 
 const App = () => {
   return (
     <Router>
+      <Header/>
       <Suspense fallback={<Loader/>}>
       <Routes>
-      <Route path="/" element={<Link to={"/admin/dashboard"} style={{margin:"auto" , color:"red" , background : "black", textAlign : "center" }} >Visit Dashboard</Link>}></Route>  
+      <Route path="/" element={<Home/>}></Route>  
+      <Route path="/search" element={<Search/>}></Route>  
+      <Route path="/cart" element={<Cart/>}></Route>  
+
+      <Route path="/login" element={<Login/>} ></Route> 
+
+<Route>
+      <Route path="/shipping" element={<ShippingCart/>}></Route>  
+      <Route path="/orders" element={<Orders/>}></Route>   
+      <Route path="/order/:id" element={<OrderDeatail/>}></Route>   
+</Route>
 
 {/* admin */}
 
