@@ -1,0 +1,53 @@
+import {GoogleAuthProvider,signInWithPopup} from "firebase/auth";
+import {auth} from "../firebase";
+import {useLoginMutation} from "redux/api/v1/user"
+import toast from "react-hot-toast;
+
+
+
+const login = () => {
+    try{
+        const provider = new GoogleAuthProvider();
+        const {user} = new signInWithPopup(auth,provider); 
+        const login = useLoginMutation();
+        const res = login({
+            name : user.name 
+        })
+        if("data" in res){
+            toast.success("ok");
+        }
+        else{
+            toast.error(res.error.message);
+        }
+    }
+    catch(e){
+        toast.error(e.message);
+    }
+}
+
+--------------------------------------------------------------------------------------
+
+
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+
+export const userAPI = createApi({
+reducerPath : "userApi",
+baseQuery : fetchBaseQuery({
+    baseUrl : `http://localhost:4000/api/v1/user/`
+}),
+endpoints : (builder) => ({
+    login : builder.mutation({
+        query: (user) => ({
+            url: "new",
+            method : "POST",
+            body : user
+        })
+    }),
+})
+})
+
+export const {useLoginMutation}  = userAPI
+
+
+// 3-10-2024

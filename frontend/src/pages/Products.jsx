@@ -5,6 +5,7 @@ import  {Link} from "react-router-dom"
 import shoeImg from "../assets/download.jpg"
 import macbook from "../assets/macbook.png"
 import { FaPlus } from "react-icons/fa";
+import {useAllProductsQuery} from "../../redux/api/productAPI";
 
 const columns = [
   {
@@ -48,7 +49,11 @@ const arr = [
 ];
 
 export default function Products() {
-  const [data] = useState(arr); // Using the state properly
+  const {data} = useAllProductsQuery("") // Using the state properly
+  
+  const [rows,setRows] = useState(arr)
+
+  if(data)setRows(data.Products)
 
   return (
     <div className="admin-container">
@@ -57,9 +62,10 @@ export default function Products() {
         {/* Using JSX to render the TableHOC component */}
         <TableHOC
           columns={columns}
-          data={data}
+          data={rows}
           containerClassname="dashboard-product-box"
           heading="Products"
+          rows.length > 6
         />   
       </main>
       <Link to={"/admin/product/new"} className="create-product-btn" >

@@ -1,7 +1,5 @@
-import React from 'react'
 import {FaPlus} from 'react-icons/fa'
 
-const a = ''
 const ProductCart = (
     {
         productId,
@@ -14,7 +12,7 @@ const ProductCart = (
 ) => {
   return (
     <div className='product-card'>
-      <img src={photo} alt='name' />
+      <img src={`http://localhost:4000${photo}`} alt='name' />
       <p>{name}</p>
       <span>${price}</span>
       <span>{stock}</span>
