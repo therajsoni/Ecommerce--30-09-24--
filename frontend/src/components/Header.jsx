@@ -3,8 +3,8 @@ import {Link} from "react-router-dom";
 import { FaSearch , FaShoppingBag ,FaSignInAlt,FaSignOutAlt,FaUser} from 'react-icons/fa';
 
 const user = {
-    _id : "1",
-    role : "admin"
+    _id : "",
+    role : ""
 }
 const Header = () => {
 
