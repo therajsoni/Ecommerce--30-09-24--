@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userAPI } from "./api/UserApi";
+import { userAPI } from "./api/userAPi"
 // import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"; 
 import { userReducer } from "./reducer/userReducer";
 import { ProductAPI } from "./api/ProductAPI";

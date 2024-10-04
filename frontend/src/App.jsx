@@ -8,7 +8,7 @@ import {Toaster} from "react-hot-toast"
 import { onAuthStateChanged } from "firebase/auth"
 import { auth } from "./firebase.js"
 import { useDispatch, useSelector } from "react-redux"
-import { getUser } from "./redux/api/UserApi.js"
+import { getUser } from "./redux/api/userAPi"
 
 //login touch problem
 

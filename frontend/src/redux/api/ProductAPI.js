@@ -11,8 +11,30 @@ endpoints : (builder) => ({
         query : () => "latest"
     }),
     allProducts : builder.query({
-        query : () => "admin-products"
-    })
+        query : (id) => `admin-products?id=${id}`
+    }),
+    categories : builder.query({
+        query : (id) => `categories`
+    }),
+    searchProducts : builder.query({
+        query : ({price,search,sort,category,page}) => {
+
+            let base = `all?search={search}&page=${page}`;
+            if(price)base += `&price=${price}`
+            if(sort)base += `&sort=${sort}`
+            if(category)base += `&category=${category}`
+            return base;
+        }
+    }),
+    createProducts : builder.mutation({
+        query : ({
+            formData,id
+        }) => ({
+            url : `new?id=${id}`,
+            method : 'POST',
+            body : formData
+        })
+    }) 
 
 })
 })
@@ -20,4 +42,4 @@ endpoints : (builder) => ({
 
   
 
-export const {useLatestProductsQuery,useAllProductsQuery}  = ProductAPI
+export const {useLatestProductsQuery,useAllProductsQuery,useCategoriesQuery,useSearchProductsQuery,useCreateProductsMutation}  = ProductAPI

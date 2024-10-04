@@ -1,63 +1,117 @@
-import { useState} from "react"
-import AdminSidebar from "../../components/AdminSidebar"
-
-
+import { useState } from "react";
+import AdminSidebar from "../../components/AdminSidebar";
+import { useSelector } from "react-redux";
+import { responseToast } from "../../utils/features";
+import { useNavigate } from "react-router-dom";
+// Assuming the correct import path for the mutation hook
+import { useCreateProductsMutation } from "../../redux/api/ProductAPI"; // Use the correct mutation hook
+import toast from "react-hot-toast";
 
 const NewProduct = () => {
-  const [name,setName] = useState("");
-  const [price,setPrice] = useState();
-  const [stock,setStock] = useState();
-  const [photo,setPhoto] = useState();
+
+  const { user } = useSelector(state => state.userReducer);
+  const navigate = useNavigate();
+  
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState();
+  const [stock, setStock] = useState();
+  const [photo, setPhoto] = useState();
+  const [category, setCategory] = useState("");
+  const [photoPrev, setPhotoPrev] = useState();
+
+  const [newProduct] =  useCreateProductsMutation() // Correct use of the mutation hook
 
   const changeImageHandler = (e) => {
-    
     const file = e.target.files?.[0];
     const reader = new FileReader();
-    if(file){
+    if (file) {
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        if(typeof reader.result === "string"){
-          setPhoto(reader.result)
+        if (typeof reader.result === "string") {
+          setPhotoPrev(reader.result);
+          setPhoto(reader.result);
         }
-      }
+      };
     }
+  };
 
-  }
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    if (!name || !price || !stock || !photo || !category) return;
 
+    const formData = new FormData();
+    formData.set("name", name.toString());
+    formData.set("price", price.toString());
+    formData.set("stock", stock.toString());
+    formData.set("photo", photo);
+    formData.set("category", category);
+
+    const res = await newProduct({
+      id: user?._id,
+      formData
+    });
+
+    responseToast(res, navigate, "/admin/product");
+  };
 
   return (
     <div className="admin-container">
-      <AdminSidebar/>
+      <AdminSidebar />
       <main className="product-management">
-      <article>
-        <form>
-          <h2>New Product</h2>
-          <div>
-            <label>Name</label>
-            <input required type="text" placeholder="Name" value={name} onChange={(e)=>setName(e.target.value)} />
-          </div>
-          <div>
-            <label>Price</label>
-            <input required type="number" placeholder="Price" value={price} onChange={(e)=>setPrice(e.target.value)} />
-          </div>
-          <div>
-            <label>Stock</label>
-            <input required type="number" placeholder="Stock" value={stock} onChange={(e)=>setStock(e.target.value)} />
-          </div>
-          <div>
-            <label>Photo</label>
-            <input required type="file"  onChange={(e)=>changeImageHandler(e)} />
-            {/* input when file load not give it value not placeholder  placeholder="Photo" value={photo}  */}
-          </div>
-          {
-            photo && <img src={photo} alt="New Image" />
-          }
-          <button type="Submit" >Create</button>
-        </form>
-      </article>
+        <article>
+          <form onSubmit={submitHandler}>
+            <h2>New Product</h2>
+            <div>
+              <label>Name</label>
+              <input
+                required
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Price</label>
+              <input
+                required
+                type="number"
+                placeholder="Price"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Stock</label>
+              <input
+                required
+                type="number"
+                placeholder="Stock"
+                value={stock}
+                onChange={(e) => setStock(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Category</label>
+              <input
+                required
+                type="text"
+                placeholder="Category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              />
+            </div>
+            <div>
+              <label>Photo</label>
+              <input required type="file" onChange={changeImageHandler} />
+            </div>
+            {photoPrev && <img src={photoPrev} alt="New Product" />}
+            <button type="submit">Create</button>
+          </form>
+        </article>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default NewProduct
+export default NewProduct;

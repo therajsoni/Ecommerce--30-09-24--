@@ -1,20 +1,19 @@
 export default function Loader() {
   return (
    <section>
-    <div></div>
+    <div>Loading</div>
    </section>
   )
 }
 
 
 export const Skeleton= ({
-  width = "unset"
+  width = "unset", length =3
 }) => {
+  const skeletions =  Array.from({
+    length
+  }, (v,idx) =>    <div key={idx} className="skeleton-shape" ></div> )
   return <div className="skeleton-loader">
-    <div className="skeleton-shape" style={{
-      width
-    }} ></div>
-    <div className="skeleton-shape" ></div>
-    <div className="skeleton-shape" ></div>
+{skeletions}
   </div>
 }
