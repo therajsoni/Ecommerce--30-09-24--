@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import { useCategoriesQuery, useSearchProductsQuery } from "../redux/api/ProductAPI";
 import toast from "react-hot-toast";
 import {Skeleton} from "../components/Loader"
+import CartItem from "../components/CartItem";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/reducer/cartReducer";
 
 const Search = () => {
   // const {loadingCategories,data, isLoading, isError, error } = useCategoriesQuery("")
@@ -16,6 +19,8 @@ const Search = () => {
     isError,
     error
   } = useCategoriesQuery("")
+
+  const dispatch = useDispatch();
 
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
@@ -32,10 +37,19 @@ const Search = () => {
   } = useSearchProductsQuery({
     search,sort,category,page,price:maxPrice
   })
+  console.log(searchedData);  
 
   console.log(searchedData);  
 
-  const addToCartHandler = () => {};
+
+
+  const addToCartHandler = (cartItem) => {
+  if(CartItem.stock<1){
+    return toast.error("Out of stock");
+  }
+  dispatch(addToCart(cartItem));
+  toast.success("Added to cart");
+  };
 
   const isPreviousPage = page > 1;
   const isNextPage = page < 4;
@@ -103,8 +117,9 @@ const Search = () => {
           productLoading ? <Skeleton length={10} />  : (
 <div className="search-product-list">
          {
-          searchedData?.products.map((i)=>(
+          searchedData?.products.map((i,index)=>(
             <ProductCart
+            key={index}
             productId={i._id}
             name={i.name}
             price={i.price}

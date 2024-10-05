@@ -1,58 +1,89 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import AdminSidebar from "../../components/AdminSidebar"
-import photoShoes from "../../assets/download.jpg"
-import { Link } from 'react-router-dom'
 
-const orderItems = [
-{
-    name : "name",
-    photo : photoShoes,
-    _id : "_id",
-    quantity : 2,
-    price : 4330
+import { Link,useNavigate} from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import {  useDeleteOrderMutation, useOrderDetailsQuery, useUpdateOrderMutation } from '../../redux/api/OrderApi'
+import { Skeleton } from '../../components/Loader'
+import { responseToast } from '../../utils/features'
+
+
+
+
+const orderItems = () => {}
+
+const defaultData = {
+    shippingInfo : {
+        address : "",
+    city : "",
+    state : "",
+    country : "",
+    pinCode: "",
+    }
+
 }
-]
 
 const TransactionManagement = () => {
 
-const [order,setOrder] = useState({
-    name : "",
-    address : "1",
-    city : "1",
-    state : "1",
-    country : "1",
-    pinCode: 1,
-    status : "1",
-    subtotal : 1,
-    discount : 1,
-    shippingCharges : 0,
-    tax : 1,
-    total : 4000 + 200 + 0 -1200,
-    orderItems,
-    _id : "1",             
-})    
+  const navigate = useNavigate()   
+    
+  const {user} = useSelector(state => state.userReducer);
 
-const {
-    name,address,city,country,state,pinCode,subtotal,shippingCharges,tax,discount,total,status
-} = order;
+    const {
+        isLoading,
+        isError,
+        data,
+        error
+    } = useOrderDetailsQuery(user?._id);
 
-const updateHandler = () => {
-    setOrder(prev => ({
-        ...prev,status :  prev.status ==="Processing" ? "Shipped" : "Delivered",
-    }))
+
+    const {shippingInfo : {
+address,city,state,country
+    } , orderItems,user : {name},status,tax,subtotal,total,discount,shippingCharges  } = data?.order || defaultData;
+
+const [order,setOrder] = useState({})    
+
+
+// const {
+//     name,address,city,country,state,pinCode,subtotal,shippingCharges,tax,discount,total,status
+// } = order;
+
+const [deleteOrder] = useDeleteOrderMutation();
+const [updateOrder] = useUpdateOrderMutation();
+
+const updateHandler = async() => {
+const res = await updateOrder({
+    userId : user._id,
+    orderId : data.order._id
+,});
+responseToast(res,navigate,"/admin/transaction");
+
 }
+
+const deleteHandler = async() => {
+    const res = await deleteOrder({
+        userId : user._id,
+        orderId : data.order._id
+    ,});
+    responseToast(res,navigate,"/admin/transaction");
+}
+
+if(isError)return <Navigate to={"/404"}/>
 
   return (
     <div className="admin-container">
     <AdminSidebar/>
     <main className="product-management">
-<section style={{
+{
+    isLoading ? <Skeleton/>: (
+        <>
+        <section style={{
     padding : "2rem"
 }} >
     <h2>Order Items</h2>
     {
         order.orderItems.map((i)=>(
-            <ProductCard name={i.name}
+            <ProductCard key={i} name={i.name}
                          photo={i.photo}
                          _id = {i._id}
                          quantity={i.quantity}
@@ -82,6 +113,10 @@ const updateHandler = () => {
    </p>
 <button onClick={updateHandler}>Process Status</button>
 </article>
+
+        </>
+    )
+}
     </main>
   </div>
   )

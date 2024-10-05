@@ -2,15 +2,20 @@ import { useState } from "react";
 import AdminSidebar from "../../components/AdminSidebar";
 import { useSelector } from "react-redux";
 import { responseToast } from "../../utils/features";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // Assuming the correct import path for the mutation hook
-import { useCreateProductsMutation } from "../../redux/api/ProductAPI"; // Use the correct mutation hook
-import toast from "react-hot-toast";
+import { useNewProductMutation } from "../../redux/api/ProductAPI"; // Use the correct mutation hook
 
 const NewProduct = () => {
 
   const { user } = useSelector(state => state.userReducer);
   const navigate = useNavigate();
+
+  const params  = useParams();
+
+  const {data} = useNewProductMutation(params.id);
+  
+
   
   const [name, setName] = useState("");
   const [price, setPrice] = useState();
@@ -19,7 +24,8 @@ const NewProduct = () => {
   const [category, setCategory] = useState("");
   const [photoPrev, setPhotoPrev] = useState();
 
-  const [newProduct] =  useCreateProductsMutation() // Correct use of the mutation hook
+  // to access any name newProduct
+  const [newProduct] =  useNewProductMutation() // Correct use of the mutation hook
 
   const changeImageHandler = (e) => {
     const file = e.target.files?.[0];
@@ -36,11 +42,11 @@ const NewProduct = () => {
   };
 
   const submitHandler = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // reload na ho page e.preventDefault()
     if (!name || !price || !stock || !photo || !category) return;
 
     const formData = new FormData();
-    formData.set("name", name.toString());
+    formData.set("name", name);
     formData.set("price", price.toString());
     formData.set("stock", stock.toString());
     formData.set("photo", photo);
@@ -72,22 +78,22 @@ const NewProduct = () => {
               />
             </div>
             <div>
-              <label>Price</label>
-              <input
-                required
-                type="number"
-                placeholder="Price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              />
-            </div>
+    <label>Price</label>
+    <input
+      required
+      type="number"
+      placeholder="Price"
+      value={price || ''}  
+      onChange={(e) => setPrice(e.target.value)} 
+    />
+  </div>
             <div>
               <label>Stock</label>
               <input
                 required
                 type="number"
                 placeholder="Stock"
-                value={stock}
+                value={stock || ''}
                 onChange={(e) => setStock(e.target.value)}
               />
             </div>
@@ -103,7 +109,10 @@ const NewProduct = () => {
             </div>
             <div>
               <label>Photo</label>
-              <input required type="file" onChange={changeImageHandler} />
+              <input 
+              required 
+              type="file"
+              onChange={changeImageHandler} />
             </div>
             {photoPrev && <img src={photoPrev} alt="New Product" />}
             <button type="submit">Create</button>

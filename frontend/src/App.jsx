@@ -34,6 +34,8 @@ const Login = lazy(()=>import('./pages/Login.jsx'))
 const Orders = lazy(()=>import('./pages/Orders.jsx'))
 const OrderDeatail = lazy(()=>import('./pages/OrderDetails.jsx'))
 import {userExist,userNotExist} from  "../src/redux/reducer/userReducer.js"
+import NotFound from "./components/NotFound.jsx"
+import Checkout from "./pages/checkout.jsx"
 const ProtectedRoute = lazy(()=>import("../src/components/ProtectedRoute.jsx"))
 
 const App = () => {
@@ -78,7 +80,8 @@ useEffect(()=>{
 <Route element={<ProtectedRoute isAuthenticated={user ? true : false} />} >
       <Route path="/shipping" element={<ShippingCart/>}></Route>  
       <Route path="/orders" element={<Orders/>}></Route>   
-      <Route path="/order/:id" element={<OrderDeatail/>}></Route>   
+      <Route path="/order/:id" element={<OrderDeatail/>}></Route> 
+      <Route path="/payment" element={<Checkout/>}></Route>    
 </Route>
 
 {/* admin */}
@@ -108,6 +111,9 @@ element={<ProtectedRoute isAuthenticated={true} adminOnly={true} admin={user?.ro
 <Route path="/admin/product/new" element={<NewProduct/>} />
 <Route path="/admin/product/:id" element={<ProductManagement/>} />
 <Route path="/admin/transaction/:id" element={<TransactionManagement/>} />
+   
+   <Route path="*" element={<NotFound/>}/>
+   
       </Routes>
       </Suspense>
       

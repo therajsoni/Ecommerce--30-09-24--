@@ -18,7 +18,13 @@ const ProductCart = (
       <span>{stock}</span>
 
 <div>
-    <button onClick={handler} > <FaPlus/> </button>
+    <button onClick={()=>handler({
+      productId,
+      price,
+      name ,
+      photo,
+      stock,quantity : 1
+    })} > <FaPlus/> </button>
 </div>
 
     </div>
@@ -26,3 +32,4 @@ const ProductCart = (
 }
 
 export default ProductCart
+// props validation know

@@ -308,3 +308,11 @@ padding: 2rem;
         opacity: 0.6;
     }    
   }
+
+  .not-found{
+    @include flex(column);
+    >svg{
+        height: 80vh;
+        font-size: 5rem;
+    }
+  }
